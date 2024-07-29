@@ -23,7 +23,7 @@ model = DepthAnythingV2(**{**model_configs[encoder], 'max_depth': max_depth})
 # for name, param in model.named_parameters():
 #     print(name, param.shape)
 
-state_dict =  torch.hub.load_state_dict_from_url('https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Small/resolve/main/depth_anything_v2_metric_hypersim_vits.pth', map_location='cpu') 
+state_dict =  torch.hub.load_state_dict_from_url('https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Large/resolve/main/depth_anything_v2_metric_hypersim_vitl.pth', map_location='cpu') 
 model.load_state_dict(state_dict)
 
 ## load the image
