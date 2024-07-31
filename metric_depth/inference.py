@@ -26,8 +26,27 @@ model = DepthAnythingV2(**{**model_configs[encoder], 'max_depth': max_depth})
 state_dict =  torch.hub.load_state_dict_from_url('https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Small/resolve/main/depth_anything_v2_metric_hypersim_vits.pth', map_location='cpu') 
 model.load_state_dict(state_dict)
 
+import os
+def download_image(image_url, file_dir):
+    response = requests.get(image_url)
+
+    if response.status_code == 200:
+        directory = os.path.dirname(file_dir)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        with open(file_dir, "wb") as fp:
+            fp.write(response.content)
+        print("Image downloaded successfully.")
+    else:
+        print(f"Failed to download the image. Status code: {response.status_code}")
+
+image_url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+file_dir = "/content/download.jpg"
+download_image(image_url, file_dir)
+
 ## load the image
-raw_img = cv2.imread('/content/000000039769.jpg')
+raw_img = cv2.imread(file_dir)
 # ## directly use the image2tensor fucntion
 image, (h, w) = model.image2tensor(raw_img)
 
