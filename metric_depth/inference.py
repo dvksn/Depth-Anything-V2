@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from PIL import Image
 import requests
-
+import torch.nn.functional as F
 import cv2
 import torch
 
@@ -70,6 +70,7 @@ for item in features:
         print("class_tokens", item[1])
 
 depth = model.forward(image)
+depth = F.interpolate(depth[:, None], (h, w), mode="bilinear", align_corners=True)[0, 0]
 print("depth: ", depth)
 
 depth = model.infer_image(raw_img)
