@@ -57,7 +57,7 @@ patch_h, patch_w = image.shape[-2] // 14, image.shape[-1] // 14
         
 features = model.pretrained.get_intermediate_layers(image, model.intermediate_layer_idx[model.encoder], 
                                                     return_class_token=True)
-print("features: ", features)      
+# print("features: ", features)      
 
 for item in features:
     if isinstance(item[0], torch.Tensor):
@@ -68,9 +68,12 @@ for item in features:
         print("class_tokens", item[1].shape)
     else:
         print("class_tokens", item[1])
-        
+
 depth = model.forward(image)
 print("depth: ", depth)
+
+depth = model.infer_image(raw_img)
+print("depth using infer image:", depth)
 # model.eval()
 
 # raw_img = cv2.imread('your/image/path')
