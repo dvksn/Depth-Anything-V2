@@ -59,6 +59,11 @@ features = model.pretrained.get_intermediate_layers(image, model.intermediate_la
                                                     return_class_token=True)
 print("features: ", features)      
 
+for k, v in features.items():
+    if isinstance(v, torch.Tensor):
+        print(k, v.shape)
+    else:
+        print(k, v)
 depth = model.forward(image)
 print("depth: ", depth)
 # model.eval()
