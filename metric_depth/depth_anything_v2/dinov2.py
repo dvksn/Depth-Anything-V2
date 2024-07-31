@@ -308,6 +308,9 @@ class DinoVisionTransformer(nn.Module):
             outputs = self._get_intermediate_layers_not_chunked(x, n)
         if norm:
             outputs = [self.norm(out) for out in outputs]
+            # "x_norm_clstoken": x_norm[:, 0],
+            # "x_norm_regtokens": x_norm[:, 1 : self.num_register_tokens + 1],
+            # "x_norm_patchtokens": x_norm[:, self.num_register_tokens + 1 :],
         class_tokens = [out[:, 0] for out in outputs]
         outputs = [out[:, 1 + self.num_register_tokens:] for out in outputs]
         if reshape:

@@ -20,8 +20,8 @@ dataset = 'hypersim' # 'hypersim' for indoor model, 'vkitti' for outdoor model
 max_depth = 20 # 20 for indoor model, 80 for outdoor model
 
 model = DepthAnythingV2(**{**model_configs[encoder], 'max_depth': max_depth})
-# for name, param in model.named_parameters():
-#     print(name, param.shape)
+for name, param in model.named_parameters():
+    print(name, param.shape)
 
 state_dict =  torch.hub.load_state_dict_from_url('https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Small/resolve/main/depth_anything_v2_metric_hypersim_vits.pth', map_location='cpu') 
 model.load_state_dict(state_dict)
@@ -59,11 +59,16 @@ features = model.pretrained.get_intermediate_layers(image, model.intermediate_la
                                                     return_class_token=True)
 print("features: ", features)      
 
-for k, v in features.items():
-    if isinstance(v, torch.Tensor):
-        print(k, v.shape)
+for item in features:
+    if isinstance(item[0], torch.Tensor):
+        print("registered_tokens", item[0].shape)
     else:
-        print(k, v)
+        print("registered_tokens", item[0])
+    if isinstance(item[1], torch.Tensor):
+        print("class_tokens", item[1].shape)
+    else:
+        print("class_tokens", item[1])
+        
 depth = model.forward(image)
 print("depth: ", depth)
 # model.eval()
