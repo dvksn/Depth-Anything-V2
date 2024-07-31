@@ -58,7 +58,9 @@ patch_h, patch_w = image.shape[-2] // 14, image.shape[-1] // 14
 features = model.pretrained.get_intermediate_layers(image, model.intermediate_layer_idx[model.encoder], 
                                                     return_class_token=True)
 print("features: ", features)      
-    
+
+depth = model.forward(image)
+print("depth: ", depth)
 # model.eval()
 
 # raw_img = cv2.imread('your/image/path')
